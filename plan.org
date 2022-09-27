@@ -162,8 +162,8 @@ terraform {
 }
 #+end_src
 
-Configure the AWS provider. Tokens will be handled by environment variables from
-=aws-vault=, so no need to set them here.
+Configure the AWS provider. Authentication tokens will be handled by environment
+variables from =aws-vault=, so there's no need to set them here.
 
 #+begin_src hcl :tangle provider.tf :noweb yes
 provider "aws" {
