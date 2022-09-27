@@ -30,7 +30,7 @@ Actions is used to facilitate this. See [[https://github.com/staticaland/literat
 Source code blocks can be extracted (tangled). To do this in Emacs, run =org-babel-tangle=. Terraform files such as =main.tf= will be created.
 
 
-** Initial authentication
+** Dealing with authentication
 
 First of all, in order to run Terraform, we must create a IAM user in the AWS
 Management Console and give it permissions to work with the resources in this
@@ -113,4 +113,69 @@ jobs:
       - name: Who's calling? Yes, this is dog.
         run: |
           aws sts get-caller-identity
+#+end_src
+
+
+** Declaring local values
+
+Let's begin our journey by setting up some [[https://www.terraform.io/language/values/locals][local values]] that will be used
+throughout the code.
+
+The region will be set by =~/.aws/config= and =aws-vault=. We use the data
+source to make it available in our Terraform code.
+
+#+begin_src hcl :tangle data.tf
+data "aws_region" "current" {}
+#+end_src
+
+#+begin_src hcl :tangle locals.tf
+locals {
+  region       = data.aws_region.current
+  account_name = "machinarium"
+  account_id   = "123"
+  domain_name  = "machinarium.cloud"
+}
+#+end_src
+
+
+** Provider settings
+
+#+begin_src hcl -r :tangle provider.tf :noweb yes
+terraform {
+
+  required_providers {
+
+    <<aws_provider>>
+
+  }
+
+}
+#+end_src
+
+#+begin_src hcl :tangle provider.tf :noweb yes
+<<aws_provider_config>>
+#+end_src
+
+
+** AWS provider settings
+
+[[(aws_provider)][Set up]] the [[https://registry.terraform.io/providers/hashicorp/aws/latest/docs][AWS provider]]. [[(version_constraints)][Version constraint]] ([[https://www.terraform.io/language/expressions/version-constraints][docs]]). By this we instruct
+Terraform to install this provider.
+
+#+NAME: aws_provider
+#+begin_src hcl -r :tangle no
+aws = {
+  source = "hashicorp/aws" (ref:aws_provider)
+  version = "~> 4.0" (ref:version_constraints)
+}
+#+end_src
+
+Configure the AWS provider. Tokens will be handled by environment variables from
+=aws-vault=, so no need to set them here.
+
+#+NAME: aws_provider_config
+#+begin_src hcl :tangle no
+provider "aws" {
+  allowed_account_ids = [local.account_id]
+}
 #+end_src
