@@ -1,7 +1,7 @@
 #+HUGO_BASE_DIR: ./docs
 #+HUGO_SECTION: ./
 
-* Hugo
+* Hugo :noexport:
 
 - If =HUGO_SECTION= is =blog= then the file is placed in
   =<HUGO_BASE_DIR>/content/blog=.
