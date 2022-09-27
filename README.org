@@ -73,12 +73,6 @@ to make this workflow pass. This means we have to set up IAM correctly.
 
 *** Test AWS authentication
 
-#+begin_html
-<a href="https://github.com/staticaland/literate-iac/actions/workflows/test_aws-auth.yml">
-<img alt="OIDC" src="https://github.com/staticaland/literate-iac/actions/workflows/test_aws-auth.yml/badge.svg" />
-</a>
-#+end_html
-
 This workflow tests and relies on the role set up in Machinarium.
 
 #+begin_src yaml :mkdirp yes :tangle .github/workflows/test_aws-auth.yml
