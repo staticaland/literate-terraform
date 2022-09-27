@@ -1,0 +1,11 @@
+languageCode = 'en-us'
+title = 'Terraform configuration as literate prose'
+
+theme = "hugo-book"
+
+[params]
+  BookRepo = 'https://github.com/staticaland/literate-terraform'
+
+[markup]
+  [markup.highlight]
+    style = 'tango'
