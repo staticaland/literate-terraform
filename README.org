@@ -67,10 +67,6 @@ aws-vault exec --no-session fluffy -- terraform init
 
 
 ** Workflows
-:PROPERTIES:
-:HEADER-ARGS: tangle hey.yml
-:EXPORT_FILE_NAME: workflows
-:END:
 
 Here is a workflow that lets us do a little test-driven development. Our goal is
 to make this workflow pass. This means we have to set up IAM correctly.
