@@ -10,7 +10,7 @@
 - If =HUGO_SECTION= is unset then the file is placed in
   =<HUGO_BASE_DIR>/content/posts/=.
 
-* Terraform configuration as literate prose
+* Terraform configuration written as prose
 :PROPERTIES:
 :EXPORT_FILE_NAME: index
 :END:
