@@ -10,7 +10,7 @@
 - If =HUGO_SECTION= is unset then the file is placed in
   =<HUGO_BASE_DIR>/content/posts/=.
 
-* Terraform configuration written as prose
+* Terraform configuration as prose
 :PROPERTIES:
 :EXPORT_FILE_NAME: index
 :END:
@@ -63,4 +63,58 @@ Plan (use =--no-session= if you get =InvalidClientTokenId=):
 
 #+begin_src sh
 aws-vault exec --no-session fluffy -- terraform init
+#+end_src
+
+
+** Workflows
+:PROPERTIES:
+:HEADER-ARGS: tangle hey.yml
+:EXPORT_FILE_NAME: workflows
+:END:
+
+Here is a workflow that lets us do a little test-driven development. Our goal is
+to make this workflow pass. This means we have to set up IAM correctly.
+
+*** Test AWS authentication
+
+#+begin_html
+<a href="https://github.com/staticaland/literate-iac/actions/workflows/test_aws-auth.yml">
+<img alt="OIDC" src="https://github.com/staticaland/literate-iac/actions/workflows/test_aws-auth.yml/badge.svg" />
+</a>
+#+end_html
+
+This workflow tests and relies on the role set up in Machinarium.
+
+#+begin_src yaml :mkdirp yes :tangle .github/workflows/test_aws-auth.yml
+name: AWS OIDC - Machinarium
+
+on:
+
+  workflow_dispatch:
+
+jobs:
+
+  auth_test:
+
+    name: AWS OIDC authentication test
+
+    runs-on: ubuntu-latest
+
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: eu-north-1
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-session-name: machinarium
+
+      - name: Who's calling? Yes, this is dog.
+        run: |
+          aws sts get-caller-identity
 #+end_src
