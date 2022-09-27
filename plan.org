@@ -144,7 +144,7 @@ locals {
 
 ** Provider settings
 
-[[(aws_provider)][Set up]] the [[https://registry.terraform.io/providers/hashicorp/aws/latest/docs][AWS provider]]. [[(version_constraints)][Version constraint]] ([[https://www.terraform.io/language/expressions/version-constraints][docs]]). By this we instruct
+Set up the AWS provider. Version constraint ([[https://www.terraform.io/language/expressions/version-constraints][docs]]). By this we instruct
 Terraform to install the AWS provider.
 
 #+begin_src hcl -r :tangle provider.tf :noweb yes
