@@ -42,7 +42,7 @@ jobs:
       run: git clone https://github.com/kaushalmodi/tomelr tomelr
 
     - name: Export Org file to Markdown
-      run: emacs ./README.org --batch -L tomelr -L ox-hugo -l ox-hugo.el --eval='(org-hugo-export-wim-to-md t)' --kill
+      run: emacs ./plan.org --batch -L tomelr -L ox-hugo -l ox-hugo.el --eval='(org-hugo-export-wim-to-md t)' --kill
 
     - id: pages
       name: Setup Pages
