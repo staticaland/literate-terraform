@@ -1,0 +1,11 @@
+#+title: Init
+
+#+begin_src sh
+hugo new site docs
+#+end_src
+
+#+RESULTS:
+
+#+begin_src sh
+git submodule add https://github.com/alex-shpak/hugo-book docs/themes/hugo-book
+#+end_src

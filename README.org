@@ -1,0 +1,66 @@
+#+HUGO_BASE_DIR: ./docs
+#+HUGO_SECTION: ./
+
+* Hugo
+
+- If =HUGO_SECTION= is =blog= then the file is placed in
+  =<HUGO_BASE_DIR>/content/blog=.
+- If =HUGO_SECTION= is =./= then the file is placed in
+  =<HUGO_BASE_DIR>/content/=
+- If =HUGO_SECTION= is unset then the file is placed in
+  =<HUGO_BASE_DIR>/content/posts/=.
+
+* Terraform configuration as literate prose
+:PROPERTIES:
+:EXPORT_FILE_NAME: index
+:END:
+
+This document is written in the [[https://orgmode.org/][Org Mode]] format and exported to Markdown by
+using =ox-hugo=.
+
+
+** Org Babel
+
+In Emacs, run =org-babel-tangle= to tangle source code from the document.
+Terraform files such as =main.tf= will be created.
+
+
+** Initial authentication
+
+Create a IAM user in the AWS Management Console and give it permission to work
+with the resources in this document.
+
+Install =awscli= and =aws-vault=:
+
+#+begin_src sh
+brew install awscli
+brew install --cask aws-vault
+brew install --cask session-manager-plugin # If you want to SSH to EC2 instances
+#+end_src
+
+Run =aws-vault add fluffy= (here =fluffy= is just a random name of the profile).
+Add the region to the AWS configuration file at =~/.aws/config=):
+
+#+begin_src ini
+[default]
+region=eu-north-1
+output=json
+#+end_src
+
+Confirm:
+
+#+begin_src sh
+aws-vault exec fluffy -- env
+#+end_src
+
+Init:
+
+#+begin_src sh
+aws-vault exec fluffy -- terraform init
+#+end_src
+
+Plan (use =--no-session= if you get =InvalidClientTokenId=):
+
+#+begin_src sh
+aws-vault exec --no-session fluffy -- terraform init
+#+end_src
