@@ -97,15 +97,20 @@ jobs:
     runs-on: ubuntu-latest
 
     # These permissions are needed to interact with GitHub's OIDC Token endpoint
-    permissions: id-token: write contents: read
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
 
-      - name: Configure AWS credentials using OIDC uses:
-        aws-actions/configure-aws-credentials@v1 with: aws-region: eu-north-1
-        role-to-assume: ${{ secrets.AWS_ROLE_ARN }} role-session-name:
-        machinarium
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: eu-north-1
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-session-name: machinarium
 
-      - name: Who's calling? Yes, this is dog. run: | aws sts
-        get-caller-identity
+      - name: Who's calling? Yes, this is dog.
+        run: |
+          aws sts get-caller-identity
 #+end_src
