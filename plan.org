@@ -15,11 +15,16 @@
 :EXPORT_FILE_NAME: index
 :END:
 
+** Canonical links to this document
+
+- HTML version :: https://staticaland.github.io/literate-terraform/
+- Git repo :: https://github.com/staticaland/literate-terraform
+
+
+** What is this
+
 This document is written in the [[https://orgmode.org/][Org Mode]] format and exported to Markdown by
 using =ox-hugo=.
-
-
-** Org Babel
 
 In Emacs, run =org-babel-tangle= to tangle source code from the document.
 Terraform files such as =main.tf= will be created.
