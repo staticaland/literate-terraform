@@ -9,7 +9,7 @@ help:
 gh/actions/pages:
 	gh workflow run pages.yml
 
-## gh/actions/pages: run the GitHub Actions pages workflow
+## gh/actions/list: list GitHub Actions workflow runs
 .PHONY: gh/actions/list
 gh/actions/list:
 	gh run list
