@@ -9,6 +9,11 @@ help:
 gh/actions/pages:
 	gh workflow run pages.yml
 
+## gh/actions/pages/gui: open the GitHub Actions pages workflow GUI
+.PHONY: gh/actions/pages/gui
+gh/actions/pages/gui:
+	open "https://github.com/staticaland/literate-terraform/actions/workflows/pages.yml"
+
 ## gh/actions/list: list GitHub Actions workflow runs
 .PHONY: gh/actions/list
 gh/actions/list:

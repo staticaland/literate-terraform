@@ -36,6 +36,8 @@ First of all, in order to run Terraform, we must create a IAM user in the AWS
 Management Console and give it permissions to work with the resources in this
 document. We'll be using =aws-vault= to store API credentials locally.
 
+*** Installing tools
+
 Install =awscli= and =aws-vault=:
 
 #+begin_src sh
@@ -43,6 +45,8 @@ brew install awscli
 brew install --cask aws-vault
 brew install --cask session-manager-plugin # If you want to SSH to EC2 instances
 #+end_src
+
+*** Using aws-vault
 
 Run =aws-vault add fluffy= (here =fluffy= is just a random name of the profile).
 Add the region to the AWS configuration file at =~/.aws/config=):
@@ -140,41 +144,28 @@ locals {
 
 ** Provider settings
 
+[[(aws_provider)][Set up]] the [[https://registry.terraform.io/providers/hashicorp/aws/latest/docs][AWS provider]]. [[(version_constraints)][Version constraint]] ([[https://www.terraform.io/language/expressions/version-constraints][docs]]). By this we instruct
+Terraform to install the AWS provider.
+
 #+begin_src hcl -r :tangle provider.tf :noweb yes
 terraform {
 
   required_providers {
 
-    <<aws_provider>>
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
 
   }
 
 }
 #+end_src
 
-#+begin_src hcl :tangle provider.tf :noweb yes
-<<aws_provider_config>>
-#+end_src
-
-
-** AWS provider settings
-
-[[(aws_provider)][Set up]] the [[https://registry.terraform.io/providers/hashicorp/aws/latest/docs][AWS provider]]. [[(version_constraints)][Version constraint]] ([[https://www.terraform.io/language/expressions/version-constraints][docs]]). By this we instruct
-Terraform to install this provider.
-
-#+NAME: aws_provider
-#+begin_src hcl -r :tangle no
-aws = {
-  source = "hashicorp/aws" (ref:aws_provider)
-  version = "~> 4.0" (ref:version_constraints)
-}
-#+end_src
-
 Configure the AWS provider. Tokens will be handled by environment variables from
 =aws-vault=, so no need to set them here.
 
-#+NAME: aws_provider_config
-#+begin_src hcl :tangle no
+#+begin_src hcl :tangle provider.tf :noweb yes
 provider "aws" {
   allowed_account_ids = [local.account_id]
 }
