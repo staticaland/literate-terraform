@@ -1,5 +1,5 @@
 languageCode = 'en-us'
-title = 'Terraform configuration as prose'
+title = 'Terraform configuration'
 
 theme = "hugo-book"
 
