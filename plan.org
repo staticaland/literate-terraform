@@ -17,23 +17,24 @@
 
 ** Canonical links to this document
 
-- HTML version :: https://staticaland.github.io/literate-terraform/
-- Git repo :: https://github.com/staticaland/literate-terraform
+- HTML version :: [[https://staticaland.github.io/literate-terraform][staticaland.github.io/literate-terraform]]
+- Git repo :: [[https://github.com/staticaland/literate-terraform][github.com/staticaland/literate-terraform]]
 
 
 ** What is this
 
-This document is written in the [[https://orgmode.org/][Org Mode]] format and exported to Markdown by
-using =ox-hugo=.
+This literate programming document is written using [[https://orgmode.org/][Org Mode]]. It's [[https://orgmode.org/manual/Exporting.html][exported]] to
+Hugo compatible Markdown by using the GNU Emacs package =ox-hugo= ([[https://github.com/kaushalmodi/ox-hugo][link]]). GitHub
+Actions is used to facilitate this. See [[https://github.com/staticaland/literate-terraform/blob/main/.github/workflows/pages.yml][pages.yml]] for specifics.
 
-In Emacs, run =org-babel-tangle= to tangle source code from the document.
-Terraform files such as =main.tf= will be created.
+Source code blocks can be extracted (tangled). To do this in Emacs, run =org-babel-tangle=. Terraform files such as =main.tf= will be created.
 
 
 ** Initial authentication
 
-Create a IAM user in the AWS Management Console and give it permission to work
-with the resources in this document.
+First of all, in order to run Terraform, we must create a IAM user in the AWS
+Management Console and give it permissions to work with the resources in this
+document. We'll be using =aws-vault= to store API credentials locally.
 
 Install =awscli= and =aws-vault=:
 
@@ -67,18 +68,18 @@ aws-vault exec fluffy -- terraform init
 Plan (use =--no-session= if you get =InvalidClientTokenId=):
 
 #+begin_src sh
-aws-vault exec --no-session fluffy -- terraform init
+aws-vault exec --no-session fluffy -- terraform plan
 #+end_src
 
 
 ** Workflows
 
-Here is a workflow that lets us do a little test-driven development. Our goal is
-to make this workflow pass. This means we have to set up IAM correctly.
+GitHub Action workflows for the project.
 
 *** Test AWS authentication
 
-This workflow tests and relies on the role set up in Machinarium.
+Here's a workflow that lets us do a little test-driven development. Our goal is
+to make this workflow pass. This means we have to set up IAM correctly.
 
 #+begin_src yaml :mkdirp yes :tangle .github/workflows/test_aws-auth.yml
 name: AWS OIDC - Machinarium
@@ -96,20 +97,15 @@ jobs:
     runs-on: ubuntu-latest
 
     # These permissions are needed to interact with GitHub's OIDC Token endpoint
-    permissions:
-      id-token: write
-      contents: read
+    permissions: id-token: write contents: read
 
     steps:
 
-      - name: Configure AWS credentials using OIDC
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-region: eu-north-1
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          role-session-name: machinarium
+      - name: Configure AWS credentials using OIDC uses:
+        aws-actions/configure-aws-credentials@v1 with: aws-region: eu-north-1
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }} role-session-name:
+        machinarium
 
-      - name: Who's calling? Yes, this is dog.
-        run: |
-          aws sts get-caller-identity
+      - name: Who's calling? Yes, this is dog. run: | aws sts
+        get-caller-identity
 #+end_src
