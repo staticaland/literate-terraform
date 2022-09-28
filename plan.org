@@ -48,8 +48,13 @@ brew install --cask session-manager-plugin # If you want to SSH to EC2 instances
 
 *** Using aws-vault
 
-Run =aws-vault add fluffy= (here =fluffy= is just a random name of the profile).
-Add the region to the AWS configuration file at =~/.aws/config=):
+Begin by adding a profile with a name, for example =fluffy=:
+
+#+begin_src sh
+aws-vault add fluffy
+#+end_src
+
+Add the region to the AWS configuration file at =~/.aws/config=:
 
 #+begin_src ini
 [default]
